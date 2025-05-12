@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Denim</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <ul>
+            <li><a href="#">HOME</a></li>
+            <li><a href="craft.html">THE CRAFT</a></li>
+            <li><a href="culture.html">THE CULTURE</a></li>
+            <li><a href="fashion.html">THE STYLE</a></li>
+            <li><a href="ethics.html">THE ETHICS</a></li>
+        </ul>
+    </nav>
+    <section class="hero">
+        <img src="images/denimtext.png" alt="DENIM" class="hero-image">
+    </section>
+    <section class="intro-text">
+        <p>Denim is more than just a fabric—it's a living artifact of history, culture, and innovation. Worn by miners, rebels, rockstars, and designers alike, denim has transcended generations and borders to become one of the most iconic textiles in the world. This website is an ode to denim in all its dimensions: a thoughtfully curated space that explores the many ways this humble cotton weave has influenced—and been influenced by—fashion, craftsmanship, culture, and sustainability. We delve into the artistry behind selvedge denim and indigo dyeing, the subcultures that adopted and transformed jeans into statements of identity, the designers pushing the boundaries of denim in high fashion, and the growing movement to make denim production more ethical and environmentally conscious. Whether you're a denim purist or a curious newcomer, this site invites you to discover the depth and diversity of a material that is anything but ordinary.</p>
+    </section>
+    <section class="squares">
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+    </section>
+    <section class="game-section">
+        <div class="game-intro">
+            <h2>CLICK THE CIRCLES TO PLAY OUR DENIM GAME</h2>
+            <p>There is no such thing as too many clicks</p>
+        </div>
+        <div class="circles-grid">
+            <div class="circle" data-category="heritage" data-color-index="-1">
+                <span>HERITAGE</span>
+            </div>
+            <div class="circle" data-category="craft" data-color-index="-1">
+                <span>CRAFT</span>
+            </div>
+            <div class="circle" data-category="design" data-color-index="-1">
+                <span>DESIGN</span>
+            </div>
+            <div class="circle" data-category="culture" data-color-index="-1">
+                <span>CULTURE</span>
+            </div>
+            <div class="circle" data-category="innovation" data-color-index="-1">
+                <span>INNOVATION</span>
+            </div>
+            <div class="circle" data-category="style" data-color-index="-1">
+                <span>STYLE</span>
+            </div>
+            <div class="circle" data-category="sustainability" data-color-index="-1">
+                <span>SUSTAINABILITY</span>
+            </div>
+            <div class="circle" data-category="community" data-color-index="-1">
+                <span>COMMUNITY</span>
+            </div>
+            <div class="circle" data-category="future" data-color-index="-1">
+                <span>FUTURE</span>
+            </div>
+        </div>
+        <div class="reset-container">
+            <button id="reset-button">RESET</button>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <h2 class="about-title">About the Team</h2>
+        <div class="about-grid">
+            <div class="about-card">
+                <img src="images/d1.png" alt="Anvita Shah">
+                <h3>Anvita Shah</h3>
+                <p class="about-copy">I am a first year IXD student at Pratt with a BFA in Communication Design from Parsons. I am a passionate designer and am always looking for new ways to intersect art, design and human interaction. I always appreciate balancing classic with experimental contemporary, just like denim.</p>
+            </div>
+            <div class="about-card">
+                <img src="images/d2.png" alt="Daniela">
+                <h3>Daniela</h3>
+                <p class="about-copy">I am an MLIS student pursuing a career in academic librarianship. I have a serious love for fashion, and denim is no exception. I'm still on the hunt for the perfect pair of denim shorts.</p>
+            </div>
+            <div class="about-card">
+                <img src="images/d3.png" alt="Elyse">
+                <h3>Elyse</h3>
+                <p class="about-copy">I am in my second semester at Pratt, pursuing a Master in Library and Information Science. I brought my interest in cultural histories and interdisciplinary research to this project, contributing mainly to the Culture page.</p>
+            </div>
+            <div class="about-card">
+                <img src="images/d4.png" alt="Zhen">
+                <h3>Zhen</h3>
+                <p class="about-copy">I am a first-year IXD program student at Pratt. I majored in architectural design during my undergraduate studies. I have always been interested in design considerations of fashion and sustainability, and I hope to explore how denim can implement environmental protection and sustainable development.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Project by Anvita, Daniela, Elyse and Zhen</p>
+    </footer>
+
+    <script>
+        const denimWords = {
+            heritage: ['WORKWEAR', 'AMERICANA', 'VINTAGE', 'TRADITION', 'LEGACY'],
+            craft: ['SELVEDGE', 'INDIGO', 'WEAVING', 'DYEING', 'LOOMS'],
+            design: ['PATTERNS', 'DETAILS', 'STITCHING', 'WASH', 'FADE'],
+            culture: ['REBELLION', 'IDENTITY', 'LIFESTYLE', 'ICONIC', 'TIMELESS'],
+            innovation: ['TECHNOLOGY', 'STRETCH', 'MODERN', 'EVOLUTION', 'PROGRESS'],
+            style: ['FASHION', 'TRENDS', 'AESTHETIC', 'LOOK', 'EXPRESSION'],
+            sustainability: ['ETHICAL', 'RECYCLED', 'CONSCIOUS', 'ECO', 'GREEN'],
+            community: ['MAKERS', 'ARTISANS', 'STORIES', 'PEOPLE', 'SHARED'],
+            future: ['VISION', 'FORWARD', 'EMERGING', 'NEXT', 'BEYOND']
+        };
+
+        const denimBlues = [
+            '#2f3cc5',  // Current blue
+            '#1e3d59',  // Dark denim
+            '#3d5a80',  // Classic indigo
+            '#4a90e2',  // Washed denim
+            '#5c7aaa',  // Vintage fade
+            '#6b8cae',  // Light wash
+            '#2b4570',  // Deep indigo
+            '#466b8c',  // Medium wash
+            '#324b73'   // Raw denim
+        ];
+
+        document.querySelectorAll('.circle').forEach(circle => {
+            circle.addEventListener('click', function() {
+     
+                const category = this.dataset.category;
+                const words = denimWords[category];
+                const span = this.querySelector('span');
+                
+                const currentWord = span.textContent;
+                const currentIndex = words.indexOf(currentWord);
+                const nextIndex = (currentIndex + 1) % words.length;
+                span.textContent = words[nextIndex];
+
+                let colorIndex = parseInt(this.dataset.colorIndex);
+                colorIndex = (colorIndex + 1) % denimBlues.length;
+                this.style.backgroundColor = denimBlues[colorIndex];
+                this.dataset.colorIndex = colorIndex;
+                
+                this.style.borderColor = 'transparent';
+                span.style.color = '#ffffff';
+                
+                this.style.transition = 'background-color 0.3s ease';
+                span.style.transition = 'color 0.3s ease';
+            });
+        });
+
+        
+        document.getElementById('reset-button').addEventListener('click', function() {
+            document.querySelectorAll('.circle').forEach(circle => {
+                
+                const category = circle.dataset.category;
+                const span = circle.querySelector('span');
+                
+            
+                circle.style.backgroundColor = 'transparent';
+                circle.style.borderColor = '#000';
+                span.style.color = '#000';
+                span.textContent = category.toUpperCase();
+                
+              
+                circle.dataset.colorIndex = '-1';
+                
+               
+                circle.style.transition = 'background-color 0.3s ease';
+                span.style.transition = 'color 0.3s ease';
+            });
+        });
+    </script>
+</body>
+</html>
