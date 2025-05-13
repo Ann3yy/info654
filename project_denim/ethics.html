@@ -122,7 +122,6 @@
             const impactLevel = document.getElementById('impact-level');
             const recommendationsList = document.getElementById('recommendations-list');
             
-            // Add a new section to the results for weather data
             const weatherSection = document.createElement('div');
             weatherSection.className = 'weather-section';
             weatherSection.innerHTML = `
@@ -131,7 +130,6 @@
                 <div id="climate-recommendations"></div>
             `;
             
-            // Add weather section to results
             resultDiv.appendChild(weatherSection);
             
             calculateBtn.addEventListener('click', function() {
@@ -140,35 +138,27 @@
                 const washFrequency = parseFloat(document.getElementById('wash-frequency').value);
                 const sustainableFactor = parseFloat(document.getElementById('sustainable-brands').value);
                 
-                // Calculate water impact (liters per year)
-                // Base: 3,781 liters per pair of jeans lifecycle
-                const waterPerWash = 40; // liters
+                const waterPerWash = 40; 
                 const annualWaterFromWashing = jeansOwned * washFrequency * 12 * waterPerWash;
                 const annualWaterFromNew = purchaseFrequency * 3781 * sustainableFactor;
                 const totalWaterImpact = annualWaterFromWashing + annualWaterFromNew;
                 
-                // Calculate carbon impact (kg CO2 per year)
-                // Base: 33.4 kg CO2 per pair of jeans lifecycle
-                const carbonPerWash = 0.6; // kg CO2
+                const carbonPerWash = 0.6; 
                 const annualCarbonFromWashing = jeansOwned * washFrequency * 12 * carbonPerWash;
                 const annualCarbonFromNew = purchaseFrequency * 33.4 * sustainableFactor;
                 const totalCarbonImpact = annualCarbonFromWashing + annualCarbonFromNew;
                 
-                // Impact score (0-100)
-                const maxExpectedImpact = 25000; // Water liters per year benchmark
+                const maxExpectedImpact = 25000; 
                 let impactScore = Math.min(100, Math.round((totalWaterImpact / maxExpectedImpact) * 100));
                 
-                // Display results
                 impactText.innerHTML = `
                     Your yearly denim footprint is approximately <strong>${totalWaterImpact.toLocaleString()} liters of water</strong> 
                     and <strong>${totalCarbonImpact.toFixed(1)} kg of CO₂</strong>. This is equivalent to 
                     <strong>${Math.round(totalWaterImpact/3781)} new pairs of jeans</strong> per year in environmental impact.
                 `;
                 
-                // Set impact level
                 impactLevel.style.width = `${impactScore}%`;
                 
-                // Color code based on impact
                 if (impactScore < 30) {
                     impactLevel.style.background = 'linear-gradient(90deg, #34c759, #34c759)';
                 } else if (impactScore < 70) {
@@ -257,7 +247,7 @@
                             temperature_2m: 18.5,
                             relative_humidity_2m: 65,
                             precipitation: 0.1,
-                            weather_code: 2 // Partly cloudy
+                            weather_code: 2 
                         },
                         current_units: {
                             temperature_2m: "°C",
