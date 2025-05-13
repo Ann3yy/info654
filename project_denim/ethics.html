@@ -53,6 +53,331 @@
             <li><strong>Dispose Responsibly:</strong> Donate or recycle your denim when no longer needed</li>
         </ul>
     </section>
+
+    <section id="calculator">
+        <div class="content-section">
+        <h2>Denim Environmental Impact Calculator</h2>
+        <p>Discover the environmental impact of your denim choices and learn how you can reduce your fashion footprint.</p>
+        
+        <div class="calculator-form">
+            <div class="form-group">
+                <label for="jeans-owned">How many pairs of jeans do you currently own?</label>
+                <input type="number" id="jeans-owned" min="0" value="5">
+            </div>
+            
+            <div class="form-group">
+                <label for="purchase-frequency">How often do you buy new jeans?</label>
+                <select id="purchase-frequency">
+                    <option value="0.25">Once every few years</option>
+                    <option value="1" selected>Once a year</option>
+                    <option value="2">Twice a year</option>
+                    <option value="4">Quarterly</option>
+                    <option value="12">Monthly</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="wash-frequency">How often do you wash your jeans?</label>
+                <select id="wash-frequency">
+                    <option value="0.25">Only when necessary (few times a year)</option>
+                    <option value="1">Monthly</option>
+                    <option value="4" selected>Weekly</option>
+                    <option value="12">After each wear</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="sustainable-brands">Do you buy from sustainable denim brands?</label>
+                <select id="sustainable-brands">
+                    <option value="0.7">Yes, always</option>
+                    <option value="0.85">Sometimes</option>
+                    <option value="1" selected>Rarely</option>
+                    <option value="1.2">Never, I only buy fast fashion</option>
+                </select>
+            </div>
+        </div>
+        
+        <button class="cta" id="calculate-btn">Calculate My Impact</button>
+        
+        <div id="result">
+            <h3>Your Denim Environmental Impact</h3>
+            <p id="impact-text"></p>
+            
+            <div class="impact-meter">
+                <div class="impact-level" id="impact-level"></div>
+            </div>
+            
+            <div class="recommendations">
+                <h4>Personalized Recommendations:</h4>
+                <div id="recommendations-list"></div>
+            </div>
+        </div>
+    </div>
+    </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const calculateBtn = document.getElementById('calculate-btn');
+            const resultDiv = document.getElementById('result');
+            const impactText = document.getElementById('impact-text');
+            const impactLevel = document.getElementById('impact-level');
+            const recommendationsList = document.getElementById('recommendations-list');
+            
+            // Add a new section to the results for weather data
+            const weatherSection = document.createElement('div');
+            weatherSection.className = 'weather-section';
+            weatherSection.innerHTML = `
+                <h4>Local Climate & Sustainable Denim Care</h4>
+                <div id="weather-data">Loading local climate data...</div>
+                <div id="climate-recommendations"></div>
+            `;
+            
+            // Add weather section to results
+            resultDiv.appendChild(weatherSection);
+            
+            calculateBtn.addEventListener('click', function() {
+                const jeansOwned = parseInt(document.getElementById('jeans-owned').value);
+                const purchaseFrequency = parseFloat(document.getElementById('purchase-frequency').value);
+                const washFrequency = parseFloat(document.getElementById('wash-frequency').value);
+                const sustainableFactor = parseFloat(document.getElementById('sustainable-brands').value);
+                
+                // Calculate water impact (liters per year)
+                // Base: 3,781 liters per pair of jeans lifecycle
+                const waterPerWash = 40; // liters
+                const annualWaterFromWashing = jeansOwned * washFrequency * 12 * waterPerWash;
+                const annualWaterFromNew = purchaseFrequency * 3781 * sustainableFactor;
+                const totalWaterImpact = annualWaterFromWashing + annualWaterFromNew;
+                
+                // Calculate carbon impact (kg CO2 per year)
+                // Base: 33.4 kg CO2 per pair of jeans lifecycle
+                const carbonPerWash = 0.6; // kg CO2
+                const annualCarbonFromWashing = jeansOwned * washFrequency * 12 * carbonPerWash;
+                const annualCarbonFromNew = purchaseFrequency * 33.4 * sustainableFactor;
+                const totalCarbonImpact = annualCarbonFromWashing + annualCarbonFromNew;
+                
+                // Impact score (0-100)
+                const maxExpectedImpact = 25000; // Water liters per year benchmark
+                let impactScore = Math.min(100, Math.round((totalWaterImpact / maxExpectedImpact) * 100));
+                
+                // Display results
+                impactText.innerHTML = `
+                    Your yearly denim footprint is approximately <strong>${totalWaterImpact.toLocaleString()} liters of water</strong> 
+                    and <strong>${totalCarbonImpact.toFixed(1)} kg of CO₂</strong>. This is equivalent to 
+                    <strong>${Math.round(totalWaterImpact/3781)} new pairs of jeans</strong> per year in environmental impact.
+                `;
+                
+                // Set impact level
+                impactLevel.style.width = `${impactScore}%`;
+                
+                // Color code based on impact
+                if (impactScore < 30) {
+                    impactLevel.style.background = 'linear-gradient(90deg, #34c759, #34c759)';
+                } else if (impactScore < 70) {
+                    impactLevel.style.background = 'linear-gradient(90deg, #ffcc00, #ff9500)';
+                } else {
+                    impactLevel.style.background = 'linear-gradient(90deg, #ff3b30, #ff453a)';
+                }
+                
+                const recommendations = [];
+                
+                if (washFrequency > 1) {
+                    recommendations.push("Try washing your jeans less frequently. Most denim experts recommend washing jeans only when necessary - about every 10 wears or when they're visibly dirty.");
+                }
+                
+                if (purchaseFrequency > 1) {
+                    recommendations.push("Consider adopting a more mindful approach to purchasing. Buying quality jeans less frequently can significantly reduce your environmental impact.");
+                }
+                
+                if (sustainableFactor > 0.85) {
+                    recommendations.push("Look for sustainable denim brands that use eco-friendly production methods and materials. Many now offer waterless dyeing and recycled fabrics.");
+                }
+                
+                if (jeansOwned > 7) {
+                    recommendations.push("With a large denim collection, consider donating pairs you rarely wear to extend their lifecycle and reduce waste.");
+                }
+                
+                recommendations.push("Extend the life of your jeans by learning basic repair techniques or finding a local repair service for worn items.");
+                
+                recommendationsList.innerHTML = '';
+                recommendations.forEach(rec => {
+                    const recItem = document.createElement('div');
+                    recItem.className = 'recommendation-item';
+                    recItem.textContent = rec;
+                    recommendationsList.appendChild(recItem);
+                });
+                
+                resultDiv.classList.add('visible');
+                
+                fetchClimateData();
+            });
+            
+            async function fetchClimateData() {
+                try {
+                    let latitude = 40.7128;
+                    let longitude = -74.0060;
+                    
+                    if (navigator.geolocation) {
+                        try {
+                            const position = await new Promise((resolve, reject) => {
+                                navigator.geolocation.getCurrentPosition(resolve, reject, {
+                                    enableHighAccuracy: true,
+                                    timeout: 5000,
+                                    maximumAge: 0
+                                });
+                            });
+                            
+                            latitude = position.coords.latitude;
+                            longitude = position.coords.longitude;
+                        } catch (err) {
+                            console.log("Geolocation failed, using default location");
+                        }
+                    }
+                    
+                    const targetUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,precipitation,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto`;
+                    
+                    document.getElementById('weather-data').innerHTML = "<p>Fetching local climate data...</p>";
+                    
+                    const response = await fetch(targetUrl);
+                    
+                    if (!response.ok) {
+                        throw new Error('Weather API request failed');
+                    }
+                    
+                    const data = await response.json();
+                    console.log("Climate data:", data);
+                    
+                    displayWeatherData(data);
+                    
+                } catch (error) {
+                    console.error("Error fetching climate data:", error);
+                    document.getElementById('weather-data').innerHTML = 
+                        "<p>Unable to fetch live climate data. Using representative data instead.</p>";
+                    
+                    const fallbackData = {
+                        current: {
+                            temperature_2m: 18.5,
+                            relative_humidity_2m: 65,
+                            precipitation: 0.1,
+                            weather_code: 2 // Partly cloudy
+                        },
+                        current_units: {
+                            temperature_2m: "°C",
+                            relative_humidity_2m: "%",
+                            precipitation: "mm"
+                        },
+                        daily: {
+                            precipitation_sum: [0.5, 0, 0.2, 5.1, 2.3, 0, 0.4],
+                            temperature_2m_max: [21.2, 22.8, 19.7, 17.4, 18.9, 20.2, 21.8],
+                            temperature_2m_min: [14.8, 15.2, 13.7, 12.0, 13.5, 14.8, 15.9]
+                        },
+                        daily_units: {
+                            precipitation_sum: "mm",
+                            temperature_2m_max: "°C",
+                            temperature_2m_min: "°C"
+                        }
+                    };
+                    
+                    displayWeatherData(fallbackData);
+                    
+                    const noteElement = document.createElement('div');
+                    noteElement.style.marginTop = "15px";
+                    noteElement.style.fontSize = "0.85em";
+                    noteElement.style.fontStyle = "italic";
+                    noteElement.innerHTML = 
+                        "<p>Note: Using representative climate data. " +
+                        "This interactive feature would use your exact location's real-time data in a production environment." +
+                        "</p>";
+                    document.getElementById('climate-recommendations').appendChild(noteElement);
+                }
+            }
+            
+            function displayWeatherData(data) {
+                const current = data.current;
+                const daily = data.daily;
+                const weatherElement = document.getElementById('weather-data');
+                const climateRecommendationsElement = document.getElementById('climate-recommendations');
+    
+                const weatherCode = current.weather_code;
+                const weatherDescription = getWeatherDescription(weatherCode);
+                
+                weatherElement.innerHTML = `
+                    <div class="current-weather">
+                        <p><strong>Current Weather:</strong> ${weatherDescription}, ${current.temperature_2m}${data.current_units.temperature_2m}</p>
+                        <p><strong>Humidity:</strong> ${current.relative_humidity_2m}${data.current_units.relative_humidity_2m}</p>
+                        <p><strong>Precipitation:</strong> ${current.precipitation}${data.current_units.precipitation}</p>
+                    </div>
+                    <div class="forecast">
+                        <p><strong>Next 7-Day Precipitation:</strong> ${daily.precipitation_sum.reduce((a, b) => a + b, 0).toFixed(1)}${data.daily_units.precipitation_sum}</p>
+                        <p><strong>Temperature Range:</strong> ${Math.min(...daily.temperature_2m_min)}${data.daily_units.temperature_2m_min} to ${Math.max(...daily.temperature_2m_max)}${data.daily_units.temperature_2m_max}</p>
+                    </div>
+                `;
+                
+                const recommendations = [];
+                
+                const weeklyPrecipitation = daily.precipitation_sum.reduce((a, b) => a + b, 0);
+                if (weeklyPrecipitation > 25) {
+                    recommendations.push("Your area is experiencing significant rainfall. Consider air-drying your jeans indoors to reduce energy usage while avoiding outdoor humidity.");
+                } else if (weeklyPrecipitation < 5) {
+                    recommendations.push("Your area has low precipitation. Take advantage of the dry weather to air-dry your jeans outdoors, reducing energy consumption and benefiting from natural UV disinfection.");
+                }
+                
+                const avgMaxTemp = daily.temperature_2m_max.reduce((a, b) => a + b, 0) / daily.temperature_2m_max.length;
+                if (avgMaxTemp > 25) {
+                    recommendations.push("With warmer temperatures in your area, consider lightweight denim options or denim alternatives that require less water to produce and are more comfortable in heat.");
+                } else if (avgMaxTemp < 10) {
+                    recommendations.push("In your cooler climate, properly caring for your denim can extend its life. Store jeans flat or hanging to maintain shape, and consider layering for warmth rather than buying thicker, resource-intensive denim.");
+                }
+                
+                if (current.relative_humidity_2m > 70) {
+                    recommendations.push("High humidity in your area can affect denim care. Ensure jeans are completely dry before storing to prevent mildew, and consider using a dehumidifier when air-drying indoors.");
+                } else if (current.relative_humidity_2m < 30) {
+                    recommendations.push("Your area has low humidity. This is ideal for air-drying denim with minimal energy use, but be mindful that dry conditions can make fibers more brittle - wash in cold water to preserve elasticity.");
+                }
+                
+                climateRecommendationsElement.innerHTML = '<h4>Climate-Specific Recommendations:</h4>';
+                recommendations.forEach(rec => {
+                    const recItem = document.createElement('div');
+                    recItem.className = 'recommendation-item';
+                    recItem.textContent = rec;
+                    climateRecommendationsElement.appendChild(recItem);
+                });
+            }
+            
+            function getWeatherDescription(code) {
+                const weatherCodes = {
+                    0: 'Clear sky',
+                    1: 'Mainly clear',
+                    2: 'Partly cloudy',
+                    3: 'Overcast',
+                    45: 'Fog',
+                    48: 'Depositing rime fog',
+                    51: 'Light drizzle',
+                    53: 'Moderate drizzle',
+                    55: 'Dense drizzle',
+                    56: 'Light freezing drizzle',
+                    57: 'Dense freezing drizzle',
+                    61: 'Slight rain',
+                    63: 'Moderate rain',
+                    65: 'Heavy rain',
+                    66: 'Light freezing rain',
+                    67: 'Heavy freezing rain',
+                    71: 'Slight snow fall',
+                    73: 'Moderate snow fall',
+                    75: 'Heavy snow fall',
+                    77: 'Snow grains',
+                    80: 'Slight rain showers',
+                    81: 'Moderate rain showers',
+                    82: 'Violent rain showers',
+                    85: 'Slight snow showers',
+                    86: 'Heavy snow showers',
+                    95: 'Thunderstorm',
+                    96: 'Thunderstorm with slight hail',
+                    99: 'Thunderstorm with heavy hail'
+                };
+                
+                return weatherCodes[code] || 'Unknown';
+            }
+        });
+        </script>
     <footer>
         <p>Project by Anvita, Daniela, Elyse and Zhen</p>
     </footer>
